@@ -1,0 +1,20 @@
+{
+    "app": {
+        "name": "igitalent.",
+        "path": "http://igitalent.ma/api",
+        "port": 3000,
+        "env": "DEFAULT"
+    },
+    "db": {
+        "host": "127.0.0.1",
+        "name": "igitalent",
+        "user": "",
+        "password": ""
+    },
+    "front":{
+    },
+    "jwt": {
+        "access_key": "kr#<:56V^T?<L`8s",
+        "refresh_key": "+7S4*tKP7?gNzv"
+    }
+}
