@@ -28,9 +28,14 @@ app.use(function (req, res, next) {
   next();
 });
 
-// app.use(express.static('../vue-frontend/dist/'));
+app.use(express.static('../vue-frontend/dist/'));
 
 app.use('/', routes);
+
+app.use((req, res) => {
+  console.log('unmatched, redirecting...')
+  res.redirect("/");
+});
 
 
 console.log("ENV:", config.get('app.env'));

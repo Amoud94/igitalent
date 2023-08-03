@@ -85,11 +85,6 @@
 export default {
     data() {
         return {
-            loading: {
-                countries: true,
-                submit: false
-            },
-            countries: [],
             user: {
                 firstname: undefined,
                 lastname: undefined,

@@ -1,7 +1,7 @@
 // axios
 import axios from 'axios';
 var qs = require('qs');
-let baseURL =  location.hostname.includes('local') ? "http://localhost:3000/api" : "url/api";
+let baseURL =  location.hostname.includes('local') ? "http://localhost:3000/api" : "/api";
 
 const http = axios.create({
   baseURL: baseURL,
@@ -16,11 +16,9 @@ http.interceptors.response.use(
     return response;
   },
   function (error) {
-      const originalRequest = error.config;
       if (!window.location.pathname.startsWith('/register')) {
         window.localStorage.removeItem('x-auth-token');
-        if (error.response.data == 'INEXISTING_ACCOUNT') window.open('/account-not-found', '_self');
-        else window.open('', '_self');
+        window.open('', '_self');
       }
       return Promise.reject(error);
   }

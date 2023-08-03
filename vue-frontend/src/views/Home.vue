@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column" v-if="user">
         <div class="w-100 d-flex align-items-center justify-content-center pt-4">
             <h1 class="text-lg text-gray-600 font-bold leading-tight">Welcome {{ user.firstname + ' ' +
                 user.lastname.toUpperCase() }}</h1>

@@ -92,7 +92,7 @@ export default {
         },
         isValid() {
             let valid = true;
-            if (this.password == '' || !this.password || this.password == null || (this.password && this.password.length < 3)) {
+            if (this.password == '' || !this.password || this.password == null) {
                 this.$set(this.errors, 'password', 'password required');
                 valid = false;
             }

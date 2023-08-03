@@ -10,7 +10,7 @@
                 <div class="d-flex flex-row align-items-center p-2">
                     <div @click="toggleDropdown" style="cursor: pointer;"
                         class=" w-7 h-7 rounded-circle bg-primary d-flex align-items-center justify-content-center shadow">
-                        <div class="text-white text-center text-uppercase p-2">
+                        <div class="text-white text-center text-uppercase p-2" v-if="user">
                             {{ `${user.firstname ? user.firstname.charAt(0) : ''}${user.lastname ? user.lastname.charAt(0) : ''}` }}
                         </div>
                         <div v-if="showDropdown" class="position-relative z-index-20">
