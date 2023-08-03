@@ -69,7 +69,7 @@
                     </form>
 
                     <p class="mt-8 text-sm text-gray-500"> You have already acounts ?
-                        <RouterLink class="text-indigo-600 hover:text-indigo-700 font-semibold" to="/login">Login in
+                        <RouterLink class="text-indigo-600 hover:text-indigo-700 font-semibold" to="/">Login in
                         </RouterLink>
                     </p>
 
@@ -116,6 +116,7 @@ export default {
                 const _valid = this.isValid()
                 if(_valid){
                     const resp = await this.$http.post("/users/register", this.user);
+                    this.$store.dispatch('setUser', resp.data.user);
                     window.localStorage.setItem("x-auth-token", resp.data.accessToken);
                     window.localStorage.setItem("x-refresh-token", resp.data.refreshToken);
                     this.loading.submit = false;
@@ -129,10 +130,12 @@ export default {
                 }
             } catch (error) {
                 console.log(error);
-                this.$toast.error(error?.response?.data, {
-                    position: "top-center",
-                    timeout: 5000,
-                });
+                if (typeof error?.response?.data == "object"){
+                    this.$toast.error(error?.response?.data, {
+                        position: "top-center",
+                        timeout: 5000,
+                    });
+                }
             }
         },
         clearValidation(key){

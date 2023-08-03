@@ -28,10 +28,9 @@ app.use(function (req, res, next) {
   next();
 });
 
-
+// app.use(express.static('../vue-frontend/dist/'));
 
 app.use('/', routes);
-
 
 
 console.log("ENV:", config.get('app.env'));

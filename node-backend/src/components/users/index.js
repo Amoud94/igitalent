@@ -1,6 +1,6 @@
 
 module.exports = class Users extends Core {
-    static Actions = ["me", "search", "get", "login", "register", "refreshToken"];
+    static Actions = ["me", "search", "get", "login", "register"];
 
 
     static async me(req) {
@@ -129,31 +129,4 @@ module.exports = class Users extends Core {
         return { data: { accessToken, refreshToken, user }, status: true };
     }
 
-    static async refreshToken(req) {
-        let token = req.headers["x-auth-token"];
-        if (!token) return { status: false, data: "ACCESS_DENIED" };
-        if (!req.body.refreshToken) return { status: false, data: "INVALID_DATA" };
-        const decodedAccessToken = Utils.jwt.verify(token, "access", {
-            ignoreExpiration: true,
-        });
-        if (decodedAccessToken.errors || !decodedAccessToken.user) return { status: false, data: "INVALID_TOKEN" };
-        const user = await super.get('users',[{ _id:String(decodedAccessToken.user) }]);
-        if (!user || ['BANNED','DELETED'].includes(user.status)) return { status: false, data: "ACCESS_DENIED" };
-        const decodedRefreshToken = Utils.jwt.verify(
-            req.body.refreshToken,
-            "refresh"
-        );
-        if (decodedRefreshToken.errors)
-            return { status: false, data: "INVALID_TOKEN" };
-        if (decodedAccessToken.user != decodedRefreshToken.user)
-            return { status: false, data: "INVALID_TOKEN" };
-        let accessToken = Utils.jwt.sign(
-            { user: decodedAccessToken.user },
-            "access"
-        );
-        return {
-            status: true,
-            data: { accessToken, refreshToken: req.body.refreshToken },
-        };
-    }
 };

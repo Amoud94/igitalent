@@ -5,27 +5,21 @@ import store from '../store/index.js'
 Vue.use(VueRouter);
 const qs = require("qs");
 const routes = [
-
-  {
-    path: "/",
-    component: () => import("../layouts/main.vue"),
-    beforeEnter: checkToken,
-    children: [
-      {
-        path: "home",
-        name: "home",
-        component: () => import("../views/Home.vue"),
-      },
-    ],
-  },
   //-----------------###########---------------------
   {
     path: "",
     component: () => import("../layouts/Fullscreen.vue"),
     children: [
       {
-        path: "/login",
+        path: "/",
         name: "login",
+        beforeEnter: (to, from, next) => {
+          if(localStorage.getItem("x-auth-token")) {
+            next({ name: 'home' })
+          } else {
+            next()
+          }
+        },
         component: () => import("../views/Login.vue"),
       },
       {
@@ -35,6 +29,24 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/home",
+    component: () => import("../layouts/main.vue"),
+    beforeEnter: (to, from, next) => {
+      if(localStorage.getItem("x-auth-token")) {
+        next()
+      } else {
+        next({ name: 'login' })
+      }
+    },
+    children: [
+      {
+        path: "/",
+        name: "home",
+        component: () => import("../views/Home.vue"),
+      },
+    ],
+  }
 ];
 
 const router = new VueRouter({
@@ -49,11 +61,6 @@ const router = new VueRouter({
     return result ? "?" + result : "";
   },
 });
-
-function checkToken(to, from, next){
-  const token = localStorage.getItem("x-auth-token");
-  !!token ? next() : next({ name: 'login' })
-}
 
 export default router;
 

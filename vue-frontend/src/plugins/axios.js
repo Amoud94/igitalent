@@ -17,27 +17,10 @@ http.interceptors.response.use(
   },
   function (error) {
       const originalRequest = error.config;
-      if (error.response && originalRequest.url === `${baseURL}/users/refreshToken`) {
-         if (!window.location.pathname.startsWith('/login') && !window.location.pathname.startsWith('/register')) {
-          window.localStorage.removeItem('x-auth-token');
-          window.localStorage.removeItem('x-refresh-token');
-          window.open('/login', '_self')
-        } 
-          return Promise.reject(error);
-      }
-      if(error.response && (error.response.status == "401") && !originalRequest._retry) {
-          originalRequest._retry = true;
-          let refreshToken = window.localStorage.getItem('x-refresh-token');
-          // if (!refreshToken) window.open('/login','_self');
-          return http.post(`${baseURL}/users/refreshToken`,{ refreshToken })
-              .then(function (res) {
-                  if (res.status === 200) {
-                      window.localStorage.setItem('x-auth-token', res.data.accessToken);
-                      window.localStorage.setItem('x-refresh-token', res.data.refreshToken);
-                      originalRequest.headers['x-auth-token'] = res.data.accessToken;
-                  }
-                  return http(originalRequest);
-              });
+      if (!window.location.pathname.startsWith('/register')) {
+        window.localStorage.removeItem('x-auth-token');
+        if (error.response.data == 'INEXISTING_ACCOUNT') window.open('/account-not-found', '_self');
+        else window.open('', '_self');
       }
       return Promise.reject(error);
   }
