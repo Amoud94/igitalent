@@ -113,7 +113,6 @@ export default {
                     this.$store.dispatch('setUser', resp.data.user);
                     window.localStorage.setItem("x-auth-token", resp.data.accessToken);
                     window.localStorage.setItem("x-refresh-token", resp.data.refreshToken);
-                    this.loading.submit = false;
                     this.$router.push({name:'home'})
                     this.$store.dispatch('setLoadingOverlay', true)
                 }else{
