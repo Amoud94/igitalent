@@ -105,7 +105,6 @@ export default {
             return emailRegex.test(email);
         },
         async register() {
-            this.loading.submit = true;
             this.errors = {};
             try {
                 const _valid = this.isValid()
